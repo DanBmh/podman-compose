@@ -34,8 +34,6 @@ except ImportError:
 import json
 import yaml
 
-__version__ = '0.1.7dev'
-
 PY3 = sys.version_info[0] == 3
 if PY3:
     basestring = str
@@ -1064,9 +1062,13 @@ class cmd_parse:
 # actual commands
 ###################
 
+def get_version():
+    import pkg_resources
+    return pkg_resources.get_distribution("podman-compose").version
+
 @cmd_run(podman_compose, 'version', 'show version')
 def compose_version(compose, args):
-    print("podman-composer version ", __version__)
+    print("podman-composer version ", get_version())
     compose.podman.run(["--version"], sleep=0)
 
 @cmd_run(podman_compose, 'pull', 'pull stack images')
